@@ -4,7 +4,7 @@ import { Favorite, Clear } from "@mui/icons-material";
 import { GlobalContext } from "../redux/GlobalState";
 
 const DrinkControls = ({ drink, type }) => {
-  const { removeDrinkFromFavoriteslist } = useContext(GlobalContext);
+  const { removeFromFavorites } = useContext(GlobalContext);
 
   return (
     <div>
@@ -15,7 +15,7 @@ const DrinkControls = ({ drink, type }) => {
           </IconButton>
           <IconButton
             sx={{ mr: 2 }}
-            onClick={() => removeDrinkFromFavoriteslist(drink.idDrink)}
+            onClick={() => removeFromFavorites(drink.idDrink)}
           >
             <Clear />
           </IconButton>

@@ -33,7 +33,7 @@ const MuiCard = ({
           <Text variant="body2" text={glass} sx={{ pb: 2 }} />
           <Text className="ellipsis" variant="body1" text={instructions} />
         </CardContent>
-        <CardActions>
+        <CardActions sx={{ justifyContent: "center" }}>
           <DrinkControls type={type} drink={drink} />
           <Link to={to} className="readmorelink">
             <Button variant="contained" className="readmorebtn">

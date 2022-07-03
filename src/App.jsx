@@ -1,24 +1,25 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import SingleDrink from "./pages/SingleDrink";
 import "./components/styles.css";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Layout from "./components/Layout";
 import Favorites from "./pages/Favorites";
 import Homepage from "./pages/Homepage";
 import { Tables } from "./pages/Tables";
 import { GlobalProvider } from "./redux/GlobalState";
 
-const theme = createTheme({
-  typography: {
-    fontFamily: "Roboto",
-  },
-});
+export const ThemeContext = createContext(null);
 
 function App() {
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
   return (
-    <GlobalProvider>
-      <ThemeProvider theme={theme}>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <GlobalProvider id={theme}>
         <Layout>
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -27,8 +28,8 @@ function App() {
             <Route exact path="/favorites" element={<Favorites />} />
           </Routes>
         </Layout>
-      </ThemeProvider>
-    </GlobalProvider>
+      </GlobalProvider>
+    </ThemeContext.Provider>
   );
 }
 
