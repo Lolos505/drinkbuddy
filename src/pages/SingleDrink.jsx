@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchSingleCocktail } from "./redux/action";
+import { fetchSingleCocktail } from "../redux/action";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Button,
@@ -8,13 +8,15 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Container,
   Grid,
   Typography,
+  Paper,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import "./components/styles.css";
+import "../components/styles.css";
 
-const SingleCocktail = () => {
+const SingleDrink = () => {
   const { cocktail, loading } = useSelector((state) => ({ ...state.data }));
   const [modifiedCocktail, setModifiedCocktail] = useState(null);
   const { id } = useParams();
@@ -60,19 +62,19 @@ const SingleCocktail = () => {
   }, [id, cocktail]);
 
   if (!modifiedCocktail) {
-    return <h2>No Cocktail to display</h2>;
+    return <Typography variant="h4">No Cocktail to display</Typography>;
   } else {
     const { name, image, category, glass, instructions, ingredients } =
       modifiedCocktail;
     return (
       <>
         {loading ? (
-          <div className="spinner-grow" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <Container align="center">
+            <Typography variant="h4">Loading...</Typography>
+          </Container>
         ) : (
-          <Grid container className="gobackbutton">
-            <Grid item>
+          <Container sx={{ ml: "70%", mt: 10 }}>
+            <Paper elevation={12}>
               <Card sx={{ width: 900, mt: "20px", maxHeight: 1400 }}>
                 <CardMedia component="img" height="600" image={image} />
                 <CardContent>
@@ -106,24 +108,33 @@ const SingleCocktail = () => {
                       <p>
                         <span>Ingredients: </span>
                         {ingredients.map((item, index) => {
-                          return item ? <span key={index}>{item}</span> : null;
+                          return item ? (
+                            <span key={index}>
+                              {(index ? ", " : "") + item}
+                            </span>
+                          ) : null;
                         })}
                       </p>
                     </Typography>
                   </Grid>
                 </CardContent>
-                <CardActions sx={{ justifyContent: "center" }}>
-                  <Link to="/">
-                    <Button variant="contained">Go Back</Button>
+                <CardActions
+                  sx={{ justifyContent: "center" }}
+                  className="cardactionsgobackbtn"
+                >
+                  <Link to="/" className="readmorelink">
+                    <Button variant="contained" className="gobackbtn">
+                      Go Back
+                    </Button>
                   </Link>
                 </CardActions>
               </Card>
-            </Grid>
-          </Grid>
+            </Paper>
+          </Container>
         )}
       </>
     );
   }
 };
 
-export default SingleCocktail;
+export default SingleDrink;
