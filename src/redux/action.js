@@ -43,6 +43,21 @@ const fetchSingleCockTailFail = (error) => ({
   payload: error,
 });
 
+// favorites actions
+const removeFromFavouritesStart = () => ({
+  type: types.REMOVE_FROM_FAVOURITES_START,
+});
+
+const removeFromFavouritesSuccess = (id) => ({
+  type: types.REMOVE_FROM_FAVOURITES_SUCCESS,
+  payload: id,
+});
+
+const removeFromFavouritesFail = (error) => ({
+  type: types.REMOVE_FROM_FAVOURITES_FAIL,
+  payload: error,
+});
+
 export function fetchCocktail() {
   return function (dispatch) {
     dispatch(fetchCockTailStart());
@@ -90,8 +105,17 @@ export function fetchSingleCocktail(id) {
   };
 }
 
-export const TOGGLE_FAVOURITE = "TOGGLE_FAVOURITE";
-export const toggleFavourite = (cocktail) => ({
-  type: TOGGLE_FAVOURITE,
-  payload: cocktail,
-});
+export function removeFromFavourites() {
+  return function (dispatch) {
+    dispatch(removeFromFavouritesStart());
+    axios
+      .get("https://www.thecocktaildb.com/api/json/v1/1/search.php?s")
+      .then((response) => {
+        const id = response.data.drinks;
+        dispatch(removeFromFavouritesSuccess(id));
+      })
+      .catch((error) => {
+        dispatch(removeFromFavouritesFail(error));
+      });
+  };
+}

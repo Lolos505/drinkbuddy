@@ -1,10 +1,31 @@
 import { IconButton } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Favorite, Clear } from "@mui/icons-material";
-import { GlobalContext } from "../redux/GlobalState";
+import { removeFromFavourites } from "../redux/action";
+import { useDispatch, useSelector } from "react-redux";
 
-const DrinkControls = ({ drink, type }) => {
-  const { removeFromFavorites } = useContext(GlobalContext);
+const DrinkControls = ({ type }) => {
+  const { cocktails } = useSelector((state) => ({ ...state.data }));
+  const [modifiedCocktail, setModifiedCocktail] = useState([]);
+
+  let dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(removeFromFavourites());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (cocktails) {
+      const newCocktails = cocktails.map((item) => {
+        const { idDrink } = item;
+        return {
+          id: idDrink,
+        };
+      });
+      setModifiedCocktail(newCocktails);
+    } else {
+      setModifiedCocktail([]);
+    }
+  }, [cocktails]);
 
   return (
     <div>
@@ -15,7 +36,7 @@ const DrinkControls = ({ drink, type }) => {
           </IconButton>
           <IconButton
             sx={{ mr: 2 }}
-            onClick={() => removeFromFavorites(drink.id)}
+            onClick={() => removeFromFavourites(cocktails.id)}
           >
             <Clear />
           </IconButton>

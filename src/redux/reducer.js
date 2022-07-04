@@ -1,12 +1,16 @@
 import * as types from "./actionTypes";
-import { TOGGLE_FAVOURITE } from "./action";
 
 const initialState = {
   cocktails: [],
   cocktail: [],
-  favourites: [],
   loading: false,
   error: null,
+  favouriteslist: localStorage.getItem("favoriteslist")
+    ? JSON.parse(localStorage.getItem("favoriteslist"))
+    : [],
+  removed: localStorage.getItem("removed")
+    ? JSON.parse(localStorage.getItem("removed"))
+    : [],
 };
 
 const cockTailReducer = (state = initialState, action) => {
@@ -62,21 +66,46 @@ const cockTailReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-    case TOGGLE_FAVOURITE:
-      let cocktail = action.payload;
-      let cocktailFromFavourite = state.favourites.find(
-        (favCocktail) => cocktail.idDrink === favCocktail.idDrink
-      );
+
+    // Add drink to favorites
+    case types.ADD_DRINK_TO_FAVOURITES_START:
       return {
         ...state,
-        favourites: cocktailFromFavourite
-          ? [
-              ...state.favourites.filter(
-                (cocktail) => cocktail.idDrink !== cocktailFromFavourite.idDrink
-              ),
-            ]
-          : [...state.favourites, action.payload],
+        loading: true,
       };
+    case types.ADD_DRINK_TO_FAVOURITES_SUCCESS:
+      return {
+        ...state,
+        favouriteslist: [action.payload, ...state.favouriteslist],
+      };
+    case types.ADD_DRINK_TO_FAVOURITES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    // end of add drink to favorites
+
+    // Remove drink from favorites
+    case types.REMOVE_FROM_FAVOURITES_START:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.REMOVE_FROM_FAVOURITES_SUCCESS:
+      return {
+        ...state,
+        favouriteslist: state.favouriteslist.filter(
+          (drink) => drink.id !== action.payload
+        ),
+      };
+    case types.REMOVE_FROM_FAVOURITES_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    // end of remove drink from favorites
     default:
       return state;
   }

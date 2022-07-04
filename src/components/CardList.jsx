@@ -78,7 +78,6 @@ const CardList = ({ initialCards = 24 }) => {
           return (
             <Grid item key={id}>
               <MuiCard
-                drink={item}
                 image={image}
                 title={name}
                 category={category}
