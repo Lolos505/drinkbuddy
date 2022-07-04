@@ -29,8 +29,8 @@ export const GlobalProvider = (props) => {
   };
 
   // action remove from favorites
-  const removeFromFavorites = (idDrink) => {
-    dispatch({ type: "REMOVE_FROM_FAVORITES", payload: idDrink });
+  const removeFromFavorites = (id) => {
+    dispatch({ type: "REMOVE_FROM_FAVORITES", payload: id });
   };
 
   return (

@@ -15,7 +15,7 @@ const DrinkControls = ({ drink, type }) => {
           </IconButton>
           <IconButton
             sx={{ mr: 2 }}
-            onClick={() => removeFromFavorites(drink.idDrink)}
+            onClick={() => removeFromFavorites(drink.id)}
           >
             <Clear />
           </IconButton>

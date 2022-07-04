@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import Header from "./Header";
-import { DonutSmall, Favorite, Home } from "@mui/icons-material";
+import { AddBox, Favorite, Home } from "@mui/icons-material";
 import { Link, useLocation } from "react-router-dom";
 import "./styles.css";
 import Image from "../images/1.jpg";
@@ -49,13 +49,13 @@ export default function Layout({ children }) {
       path: "/",
     },
     {
-      text: "Favorites",
+      text: "Favourites",
       icon: <Favorite />,
       path: "/favorites",
     },
     {
-      text: "Tables",
-      icon: <DonutSmall />,
+      text: "Add Drinks",
+      icon: <AddBox />,
       path: "/tables",
     },
   ];

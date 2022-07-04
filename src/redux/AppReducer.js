@@ -1,4 +1,4 @@
-const drinkReducer = (state, action) => {
+export default (state, action) => {
   switch (action.type) {
     case "ADD_DRINK_TO_FAVORITESLIST":
       return {
@@ -9,12 +9,10 @@ const drinkReducer = (state, action) => {
       return {
         ...state,
         favoriteslist: state.favoriteslist.filter(
-          (drink) => drink.idDrink !== action.payload
+          (drink) => drink.id !== action.payload
         ),
       };
     default:
       return state;
   }
 };
-
-export default drinkReducer;
